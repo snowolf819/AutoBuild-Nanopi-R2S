@@ -93,10 +93,10 @@ jobs:
           cd friendlywrt
           cp -r ../lede/package/lean package/
           #cp -r ../openwrt/package/lean package/
-          sed -i 's/https:\/\/github.com\/friendlyarm\/friendlywrt_project_luci^81580a3307e5a723ec4c01783de24e8e28c8cbd8/https:\/\/github.com\/coolsnowwolf\/luci/' feeds.conf.default
-          sed -i 's/https:\/\/git.openwrt.org\/feed\/packages.git^5b22f3f59c03412200fe4815d833943f953edf2b/https:\/\/github.com\/coolsnowwolf\/packages/' feeds.conf.default   
-          #sed -i 's/https:\/\/github.com\/friendlyarm\/friendlywrt_project_luci^81580a3307e5a723ec4c01783de24e8e28c8cbd8/https:\/\/github.com\/Lienol\/openwrt-luci.git;dev-18.06/' feeds.conf.default
-          #sed -i 's/https:\/\/git.openwrt.org\/feed\/packages.git^5b22f3f59c03412200fe4815d833943f953edf2b/https:\/\/github.com\/Lienol\/openwrt-packages.git;dev-19.07/' feeds.conf.default            
+          sed -i 's/https:\/\/github.com\/friendlyarm\/friendlywrt_project_luci^81580a3307e5a723ec4c01783de24e8e28c8cbd8/https:\/\/github.com\/coolsnowwolf\/luci/g' feeds.conf.default
+          sed -i 's/https:\/\/git.openwrt.org\/feed\/packages.git^5b22f3f59c03412200fe4815d833943f953edf2b/https:\/\/github.com\/coolsnowwolf\/packages/g' feeds.conf.default   
+          #sed -i 's/https:\/\/github.com\/friendlyarm\/friendlywrt_project_luci^81580a3307e5a723ec4c01783de24e8e28c8cbd8/https:\/\/github.com\/Lienol\/openwrt-luci.git;dev-18.06/g' feeds.conf.default
+          #sed -i 's/https:\/\/git.openwrt.org\/feed\/packages.git^5b22f3f59c03412200fe4815d833943f953edf2b/https:\/\/github.com\/Lienol\/openwrt-packages.git;dev-19.07/g' feeds.conf.default            
       
       - name: Update Feeds
         run: |
