@@ -6,7 +6,7 @@
 # <https://github.com/tiantianxiaoxiaoxyz/AutoBuild-Nanopi-R2S/>
 #
 # Write by vipassana 2020/2/10
-# last update at 2020/2/25
+# last update at 2020/2/26
 name: NanoPi-R2s RK3328 OpenWrt Build
 
 on:  
@@ -79,30 +79,31 @@ jobs:
           repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master-v19.07.1 -m rk3328.xml --repo-url=https://github.com/friendlyarm/repo --no-clone-bundle
           repo sync -c --no-clone-bundle
           #同步过程中,由于网络原因出现中断,可以使用下面脚本同步代码:
-          while [ $? -ne 0 ]; 
-          do  
-              repo sync -c --no-clone-bundle
-          done
+          #while [ $? -ne 0 ]; 
+          #do  
+          #    repo sync -c --no-clone-bundle
+          #done
           
         #下载lean大源码，复制lean文件夹到rk3328下，修改feeds.conf.defaul的源     
       - name: Merge LEDE
         run: |
           cd friendlywrt-rk3328
-          #git clone https://github.com/coolsnowwolf/lede
-          git clone -b dev-19.07 https://github.com/Lienol/openwrt
+          git clone https://github.com/coolsnowwolf/lede
+          #git clone -b dev-19.07 https://github.com/Lienol/openwrt
           cd friendlywrt
-          #cp -r ../lede/package/lean package/
-          cp -r ../openwrt/package/lean package/
-          #sed -i 's/https:\/\/github.com\/friendlyarm\/friendlywrt_project_luci^81580a3307e5a723ec4c01783de24e8e28c8cbd8/https:\/\/github.com\/coolsnowwolf\/luci/' feeds.conf.default
-          #sed -i 's/https:\/\/git.openwrt.org\/feed\/packages.git^5b22f3f59c03412200fe4815d833943f953edf2b/https:\/\/github.com\/coolsnowwolf\/packages/' feeds.conf.default   
-          sed -i 's/https:\/\/github.com\/friendlyarm\/friendlywrt_project_luci^81580a3307e5a723ec4c01783de24e8e28c8cbd8/https:\/\/github.com\/Lienol\/openwrt-luci.git;dev-18.06/' feeds.conf.default
-          sed -i 's/https:\/\/git.openwrt.org\/feed\/packages.git^5b22f3f59c03412200fe4815d833943f953edf2b/https:\/\/github.com\/Lienol\/openwrt-packages.git;dev-19.07/' feeds.conf.default            
+          cp -r ../lede/package/lean package/
+          #cp -r ../openwrt/package/lean package/
+          sed -i 's/https:\/\/github.com\/friendlyarm\/friendlywrt_project_luci^81580a3307e5a723ec4c01783de24e8e28c8cbd8/https:\/\/github.com\/coolsnowwolf\/luci/' feeds.conf.default
+          sed -i 's/https:\/\/git.openwrt.org\/feed\/packages.git^5b22f3f59c03412200fe4815d833943f953edf2b/https:\/\/github.com\/coolsnowwolf\/packages/' feeds.conf.default   
+          #sed -i 's/https:\/\/github.com\/friendlyarm\/friendlywrt_project_luci^81580a3307e5a723ec4c01783de24e8e28c8cbd8/https:\/\/github.com\/Lienol\/openwrt-luci.git;dev-18.06/' feeds.conf.default
+          #sed -i 's/https:\/\/git.openwrt.org\/feed\/packages.git^5b22f3f59c03412200fe4815d833943f953edf2b/https:\/\/github.com\/Lienol\/openwrt-packages.git;dev-19.07/' feeds.conf.default            
       
       - name: Update Feeds
         run: |
           cd friendlywrt-rk3328/friendlywrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+          ./scripts/feeds install iptables-mod-tproxy kmod-ipt-tproxy ip ipset-lists pdnsd-alt coreutils coreutils-base64 coreutils-nohup lua-cjson luci-base
           
       #复制本项目根目录下的.config文件（可上传替换为自己的文件）到friendlywrt-rk3328/friendlywrt/下
       #make defconfig 的意思是把.config你没写的部分用默认值补全，无效值全部删掉 
