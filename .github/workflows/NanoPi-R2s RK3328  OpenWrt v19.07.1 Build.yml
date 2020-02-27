@@ -6,7 +6,7 @@
 # <https://github.com/tiantianxiaoxiaoxyz/AutoBuild-Nanopi-R2S/>
 #
 # Write by vipassana 2020/2/10
-# last update at 2020/2/26
+# last update at 2020/2/27
 name: NanoPi-R2s RK3328 OpenWrt Build
 
 on:  
@@ -22,7 +22,7 @@ on:
     
 #环境变量：SSH_ACTIONS设置为true则会在执行完Custom Configure File后显示一个SSH的链接，可用终端或者web登录到vps进行配置  
 env:
-  SSH_ACTIONS: true
+  SSH_ACTIONS: false
   TZ: Asia/Shanghai
 
 jobs:
@@ -105,7 +105,7 @@ jobs:
           cd friendlywrt-rk3328/friendlywrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-          ./scripts/feeds install iptables-mod-tproxy kmod-ipt-tproxy ip ipset-lists pdnsd-alt coreutils coreutils-base64 coreutils-nohup lua-cjson luci-base
+          #./scripts/feeds install iptables-mod-tproxy kmod-ipt-tproxy ip ipset-lists pdnsd-alt coreutils coreutils-base64 coreutils-nohup lua-cjson luci-base
           
       #复制本项目根目录下的.config文件（可上传替换为自己的文件）到friendlywrt-rk3328/friendlywrt/下
       #make defconfig 的意思是把.config你没写的部分用默认值补全，无效值全部删掉 
